@@ -51,6 +51,12 @@ public class ConsultaSolicitudesViewController {
 
     private Transaccion selectedTransaccion;
 
+    //SetAPP
+    public void setApp(App app) {
+        this.app = app;
+        
+    }
+
     @FXML
     void initialize() {
         consultaSolicitudesController = new ConsultaSolicitudesController(app.concesionario);
