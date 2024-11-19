@@ -49,6 +49,8 @@ public class ConsultaSolicitudesViewController {
 
     private String usuarioCliente;
 
+    private Transaccion selectedTransaccion;
+
     @FXML
     void initialize() {
         consultaSolicitudesController = new ConsultaSolicitudesController(app.concesionario);
@@ -72,12 +74,13 @@ public class ConsultaSolicitudesViewController {
     @FXML
     void aceptarOferta(ActionEvent event) {
         Transaccion transaccionSeleccionada = tblSolicitudes.getSelectionModel().getSelectedItem();
+        selectedTransaccion = transaccionSeleccionada;
 
         if (transaccionSeleccionada != null) {
             if (transaccionSeleccionada.getEstadoTransaccion() == EstadoTransaccion.PENDIENTE) {
                 consultaSolicitudesController.aceptarTransaccion(transaccionSeleccionada);
                 mostrarAlerta(Alert.AlertType.INFORMATION, "Éxito", "Transacción aceptada correctamente.");
-                cargarTransaccionesCliente(); // Recargar las transacciones para reflejar el cambio.
+                cargarTransaccionesCliente(); 
             } else {
                 mostrarAlerta(Alert.AlertType.WARNING, "Advertencia",
                         "Solo se pueden aceptar transacciones pendientes.");
@@ -90,12 +93,13 @@ public class ConsultaSolicitudesViewController {
     @FXML
     void rechazarOferta(ActionEvent event) {
         Transaccion transaccionSeleccionada = tblSolicitudes.getSelectionModel().getSelectedItem();
+        selectedTransaccion=transaccionSeleccionada;
 
         if (transaccionSeleccionada != null) {
             if (transaccionSeleccionada.getEstadoTransaccion() == EstadoTransaccion.PENDIENTE) {
                 consultaSolicitudesController.rechazarTransaccion(transaccionSeleccionada);
                 mostrarAlerta(Alert.AlertType.INFORMATION, "Éxito", "Transacción rechazada correctamente.");
-                cargarTransaccionesCliente(); // Recargar las transacciones para reflejar el cambio.
+                cargarTransaccionesCliente(); 
             } else {
                 mostrarAlerta(Alert.AlertType.WARNING, "Advertencia",
                         "Solo se pueden rechazar transacciones pendientes.");
@@ -119,7 +123,7 @@ public class ConsultaSolicitudesViewController {
                 }
             }
 
-            transacciones.setAll(transaccionesPendientes); // Actualizar la tabla con las transacciones pendientes.
+            transacciones.setAll(transaccionesPendientes); 
         } else {
             mostrarAlerta(Alert.AlertType.ERROR, "Error", "No se pudo identificar al cliente logueado.");
         }
@@ -128,7 +132,7 @@ public class ConsultaSolicitudesViewController {
     private void mostrarAlerta(Alert.AlertType tipo, String titulo, String mensaje) {
         Alert alerta = new Alert(tipo);
         alerta.setTitle(titulo);
-        alerta.setHeaderText(null); // Elimina el encabezado para que sea más claro.
+        alerta.setHeaderText(null);
         alerta.setContentText(mensaje);
         alerta.showAndWait();
     }
