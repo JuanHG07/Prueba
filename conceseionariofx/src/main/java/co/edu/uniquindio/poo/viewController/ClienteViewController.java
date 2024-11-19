@@ -22,6 +22,7 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TableColumn;
@@ -412,14 +413,32 @@ public class ClienteViewController {
 
     @FXML
     void comprarVehiculo(ActionEvent event) {
-        comprarVehiculo = true;
-        app.openSolicitudClienteView();
+        if (selectedVehiculo == null) {
+            Alert alerta = new Alert(Alert.AlertType.ERROR);
+            alerta.setTitle("ERROR");
+            alerta.setHeaderText(null);
+            alerta.setContentText("Debes seleccionar un vehiculo.");
+            alerta.showAndWait();
+        } else {
+            comprarVehiculo = true;
+            app.openSolicitudClienteView();
+            tblVehiculos.getSelectionModel().clearSelection();
+        }
     }
 
     @FXML
     void alquilarVehiculo(ActionEvent event) {
-        alquilarVehiculo = true;
-        app.openSolicitudClienteView();
+        if (selectedVehiculo == null) {
+            Alert alerta = new Alert(Alert.AlertType.ERROR);
+            alerta.setTitle("ERROR");
+            alerta.setHeaderText(null);
+            alerta.setContentText("Debes seleccionar un vehiculo.");
+            alerta.showAndWait();
+        } else {
+            alquilarVehiculo = true;
+            app.openSolicitudClienteView();
+            tblVehiculos.getSelectionModel().clearSelection();
+        }
     }
 
     @FXML
@@ -431,7 +450,7 @@ public class ClienteViewController {
 
     @FXML
     void consultarPendientes(ActionEvent event) {
-        app.openConsultaSolicitudesView();
+
     }
 
     public Vehiculo getSelectedVehiculo() {

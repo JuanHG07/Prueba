@@ -32,6 +32,16 @@ import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 
 public class VentaClienteViewController {
+
+    @FXML
+    private Label lblCodigo;
+
+    @FXML
+    private Label lblMarca;
+
+    @FXML
+    private Label lblModelo;
+
     @FXML
     private Label lblCambios;
 
@@ -306,6 +316,10 @@ public class VentaClienteViewController {
     void seleccionarVehiculo(ActionEvent event) {
 
         limpiarSeleccion();
+
+        lblCodigo.setStyle("-fx-text-fill: red;");
+        lblMarca.setStyle("-fx-text-fill: red;");
+        lblModelo.setStyle("-fx-text-fill: red;");
         lblNuevo.setStyle("-fx-text-fill: red;");
         lblCambios.setStyle("-fx-text-fill: red;");
         lblVelMax.setStyle("-fx-text-fill: red;");

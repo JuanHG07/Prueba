@@ -51,7 +51,7 @@ public class SolicitudClienteViewController {
         String usuario = app.getLoginViewController().getUsuario();
         Cliente cliente = solicitudClienteController.verificarUsuario(usuario);
         Transaccion transaccion = new Transaccion(codigo, 0, date1.getValue(), cliente, null);
-        Negocio negocio = crearNegocio();
+        Negocio negocio = crearNegocio(transaccion);
         transaccion.getNegocios().add(negocio);
         solicitudClienteController.agregarTransaccion(transaccion);
         Alert alerta = new Alert(Alert.AlertType.INFORMATION);
@@ -61,14 +61,15 @@ public class SolicitudClienteViewController {
         alerta.showAndWait();
     }
 
-    private Negocio crearNegocio() {
+    private Negocio crearNegocio(Transaccion transaccion) {
         Negocio negocio = null;
+        Vehiculo vehiculo = app.getClienteViewController().getSelectedVehiculo();
         if (app.getClienteViewController().comprarVehiculo) {
-            negocio = new Compra(null, 0, null, null, 0, false);
+            negocio = new Compra(null, 0, vehiculo, transaccion, 0, false);
         } else if (app.getClienteViewController().alquilarVehiculo) {
-            negocio = new Alquiler(null, 0, null, null, 0, null, null);
+            negocio = new Alquiler(null, 0, vehiculo, transaccion, 0, null, null);
         } else if (app.getVentaClienteViewController().venderVehiculo) {
-            negocio = new Venta(null, 0, null, null, 0);
+            negocio = new Venta(null, 0, vehiculo, transaccion, 0);
         }
         return negocio;
     }

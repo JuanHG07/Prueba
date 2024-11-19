@@ -15,8 +15,12 @@ import javafx.scene.control.Button;
 import javafx.scene.control.RadioButton;
 import javafx.scene.control.TextField;
 import javafx.scene.control.ToggleGroup;
+import javafx.stage.Stage;
 
 public class ConsultaTransaccionViewController {
+    @FXML
+    private Button btnSalir;
+
     @FXML
     private RadioButton radioCompra;
 
@@ -63,6 +67,9 @@ public class ConsultaTransaccionViewController {
         radioAlquiler.setToggleGroup(toggleGroup);
         radioCompra.setToggleGroup(toggleGroup);
         radioVenta.setToggleGroup(toggleGroup);
+        radioCompra.setDisable(true);
+        radioVenta.setDisable(true);
+        radioAlquiler.setDisable(true);
     }
 
     @FXML
@@ -87,6 +94,11 @@ public class ConsultaTransaccionViewController {
                         ((Alquiler) negocio).setPrecioAlquiler(oferta);
                     }
                 }
+                Alert alert = new Alert(Alert.AlertType.INFORMATION);
+                alert.setHeaderText(null);
+                alert.setTitle("INFO");
+                alert.setContentText("Se ha realizado la oferta al cliente.");
+                alert.showAndWait();
             }
         } catch (NumberFormatException e) {
             Alert alert = new Alert(Alert.AlertType.ERROR);
@@ -115,6 +127,12 @@ public class ConsultaTransaccionViewController {
                 }
             }
         }
+    }
+
+    @FXML
+    void regresarEmpleado(ActionEvent event) {
+        Stage stage = (Stage) btnSalir.getScene().getWindow();
+        stage.close();
     }
 
     public void setApp(App app) {
