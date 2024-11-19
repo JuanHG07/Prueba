@@ -230,7 +230,7 @@ public class EmpleadoViewController {
     void regresarLogin(ActionEvent event) {
         Stage stage = (Stage) btnSalir.getScene().getWindow();
         stage.close();
-        app.openLoginView();
+        app.getLoginViewController().limpiarCasillas();
     }
 
     @FXML

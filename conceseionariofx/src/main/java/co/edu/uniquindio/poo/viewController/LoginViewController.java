@@ -45,20 +45,15 @@ public class LoginViewController {
 
     private void iniciarSesion() {
         String usuario = txtUsuario.getText();
+        usuarioText = usuario;
         String contrasenia = txtContrasenia.getText();
 
         if (verificarSesionCliente(usuario, contrasenia)) {
             app.openClienteView();
-            Stage stage = (Stage) btnIngresar.getScene().getWindow();
-            stage.close();
         } else if (verificarSesionVendedor(usuario, contrasenia)) {
             app.openEmpleadoView();
-            Stage stage = (Stage) btnIngresar.getScene().getWindow();
-            stage.close();
         } else if (verificarSesionAdministrador(usuario, contrasenia)) {
             app.openAdministradorView();
-            Stage stage = (Stage) btnIngresar.getScene().getWindow();
-            stage.close();
         } else {
             Alert alert = new Alert(Alert.AlertType.ERROR);
             alert.setHeaderText(null);
@@ -141,6 +136,11 @@ public class LoginViewController {
         } else {
             app.openRestablecerView();
         }
+    }
+
+    public void limpiarCasillas() {
+        txtUsuario.clear();
+        txtContrasenia.clear();
     }
 
     public String getUsuario() {

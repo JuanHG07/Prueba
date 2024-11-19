@@ -281,7 +281,7 @@ public class AdministradorViewController {
     void regresarLogin(ActionEvent event) {
         Stage stage = (Stage) btnRegresar.getScene().getWindow();
         stage.close();
-        app.openLoginView();
+        app.getLoginViewController().limpiarCasillas();
     }
 
     @FXML
