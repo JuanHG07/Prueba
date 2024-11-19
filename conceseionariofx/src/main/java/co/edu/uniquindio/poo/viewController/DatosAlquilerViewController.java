@@ -9,6 +9,7 @@ import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.DatePicker;
 import javafx.scene.control.ToggleGroup;
+import javafx.stage.Stage;
 
 public class DatosAlquilerViewController {
     @FXML
@@ -34,12 +35,15 @@ public class DatosAlquilerViewController {
 
     @FXML
     void guardarNegocioAlquiler(ActionEvent event) {
-        Transaccion transaccion = app.getConsultaSolicitudesViewController();
+        Transaccion transaccion = app.getConsultaSolicitudesViewController().getSelectedTransaccion();
+
+        // Foreach negocios
     }
 
     @FXML
     void regresarCliente(ActionEvent event) {
-
+        Stage stage = (Stage) btnSalir.getScene().getWindow();
+        stage.close();
     }
 
     public void setApp(App app) {

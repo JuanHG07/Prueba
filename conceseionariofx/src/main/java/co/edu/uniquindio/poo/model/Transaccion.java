@@ -66,6 +66,10 @@ public class Transaccion {
         return cliente != null ? cliente.getCedula() : null;
     }
 
+    public String getCodigoVendedor() {
+        return vendedor != null ? vendedor.getCodigoEmpleado() : null;
+    }
+
     public String getCodigoVehiculo() {
         String codigoVehiculo = null;
         for (Negocio negocio : negocios) {

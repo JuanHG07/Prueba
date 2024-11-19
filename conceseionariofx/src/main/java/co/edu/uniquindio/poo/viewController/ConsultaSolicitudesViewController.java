@@ -2,8 +2,13 @@ package co.edu.uniquindio.poo.viewController;
 
 import co.edu.uniquindio.poo.App;
 import co.edu.uniquindio.poo.controller.ConsultaSolicitudesController;
+import co.edu.uniquindio.poo.model.Alquiler;
+import co.edu.uniquindio.poo.model.Cliente;
+import co.edu.uniquindio.poo.model.Compra;
 import co.edu.uniquindio.poo.model.EstadoTransaccion;
+import co.edu.uniquindio.poo.model.Negocio;
 import co.edu.uniquindio.poo.model.Transaccion;
+import co.edu.uniquindio.poo.model.Venta;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -30,6 +35,15 @@ public class ConsultaSolicitudesViewController {
     private TableColumn<Transaccion, String> clmFecha;
 
     @FXML
+    private RadioButton radioAlquiler;
+
+    @FXML
+    private RadioButton radioVenta;
+
+    @FXML
+    private RadioButton radioCompra;
+
+    @FXML
     private Button btnAceptar;
 
     @FXML
@@ -47,18 +61,14 @@ public class ConsultaSolicitudesViewController {
 
     private ObservableList<Transaccion> transacciones;
 
-    private String usuarioCliente;
-
     private Transaccion selectedTransaccion;
 
-    //SetAPP
+    ToggleGroup toggleGroup;
+
+    // SetAPP
     public void setApp(App app) {
         this.app = app;
-        
-    }
 
-    public void setSelectedTransaccion(Transaccion selectedTransaccion) {
-        this.selectedTransaccion = selectedTransaccion;
     }
 
     public Transaccion getSelectedTransaccion() {
@@ -68,21 +78,56 @@ public class ConsultaSolicitudesViewController {
     @FXML
     void initialize() {
         consultaSolicitudesController = new ConsultaSolicitudesController(app.concesionario);
+
+        toggleGroup = new ToggleGroup();
+
         transacciones = FXCollections.observableArrayList();
+
+        seleccionarTransaccion();
+        enlazarOpciones();
+        enlazarDatosTabla();
+        cargarTransaccionesCliente();
+
+        tblSolicitudes.setItems(transacciones);
+    }
+
+    private void seleccionarTransaccion() {
+        tblSolicitudes.getSelectionModel().selectedItemProperty().addListener((obs, oldSelection, newSelection) -> {
+            selectedTransaccion = newSelection;
+        });
+        mostrarInformacionTransaccion(selectedTransaccion);
+    }
+
+    private void mostrarInformacionTransaccion(Transaccion transaccion) {
+        if (transaccion != null) {
+            for (Negocio negocio : transaccion.getNegocios()) {
+                if (negocio instanceof Compra) {
+                    radioCompra.setSelected(true);
+                    txtOferta.setText(((Compra) negocio).getPrecioCompra() + "");
+                } else if (negocio instanceof Venta) {
+                    radioVenta.setSelected(true);
+                    txtOferta.setText(((Venta) negocio).getPrecioVenta() + "");
+                } else if (negocio instanceof Alquiler) {
+                    radioAlquiler.setSelected(true);
+                    txtOferta.setText(((Alquiler) negocio).getPrecioAlquiler() + "");
+                }
+            }
+        }
+    }
+
+    private void enlazarOpciones() {
+        radioAlquiler.setToggleGroup(toggleGroup);
+        radioCompra.setToggleGroup(toggleGroup);
+        radioVenta.setToggleGroup(toggleGroup);
+        radioAlquiler.setDisable(true);
+        radioCompra.setDisable(true);
+        radioVenta.setDisable(true);
+    }
+
+    private void enlazarDatosTabla() {
         clmCodigo.setCellValueFactory(new PropertyValueFactory<>("codigo"));
         clmFecha.setCellValueFactory(new PropertyValueFactory<>("fecha"));
-        clmCodigoVendedor.setCellValueFactory(cellData -> {
-
-        Transaccion transaccion = cellData.getValue();
-        if (transaccion.getVendedor() != null) {
-            return new SimpleStringProperty(transaccion.getVendedor().getCodigoEmpleado());
-        } else {
-            return new SimpleStringProperty("Sin vendedor");
-        }
-        });
-
-      
-        tblSolicitudes.setItems(transacciones);
+        clmCodigoVendedor.setCellValueFactory(new PropertyValueFactory<>("codigoVendedor"));
     }
 
     @FXML
@@ -91,13 +136,17 @@ public class ConsultaSolicitudesViewController {
         selectedTransaccion = transaccionSeleccionada;
 
         if (transaccionSeleccionada != null) {
-            if (transaccionSeleccionada.getEstadoTransaccion() == EstadoTransaccion.PENDIENTE) {
-                consultaSolicitudesController.aceptarTransaccion(transaccionSeleccionada);
-                mostrarAlerta(Alert.AlertType.INFORMATION, "Éxito", "Transacción aceptada correctamente.");
-                cargarTransaccionesCliente(); 
-            } else {
-                mostrarAlerta(Alert.AlertType.WARNING, "Advertencia",
-                        "Solo se pueden aceptar transacciones pendientes.");
+            for (Negocio negocio : transaccionSeleccionada.getNegocios()) {
+                if (negocio instanceof Alquiler) {
+                    app.openDatosAlquilerView();
+                    transaccionSeleccionada.setEstadoTransaccion(EstadoTransaccion.ACEPTADA);
+                    mostrarAlerta(Alert.AlertType.INFORMATION, "Éxito", "Transacción aceptada correctamente.");
+                    transaccionSeleccionada.getCliente().getTransacciones().add(transaccionSeleccionada);
+                } else {
+                    transaccionSeleccionada.setEstadoTransaccion(EstadoTransaccion.ACEPTADA);
+                    mostrarAlerta(Alert.AlertType.INFORMATION, "Éxito", "Transacción aceptada correctamente.");
+                    transaccionSeleccionada.getCliente().getTransacciones().add(transaccionSeleccionada);
+                }
             }
         } else {
             mostrarAlerta(Alert.AlertType.WARNING, "Advertencia", "Debe seleccionar una transacción.");
@@ -107,40 +156,27 @@ public class ConsultaSolicitudesViewController {
     @FXML
     void rechazarOferta(ActionEvent event) {
         Transaccion transaccionSeleccionada = tblSolicitudes.getSelectionModel().getSelectedItem();
-        selectedTransaccion=transaccionSeleccionada;
+        selectedTransaccion = transaccionSeleccionada;
 
         if (transaccionSeleccionada != null) {
-            if (transaccionSeleccionada.getEstadoTransaccion() == EstadoTransaccion.PENDIENTE) {
-                consultaSolicitudesController.rechazarTransaccion(transaccionSeleccionada);
-                mostrarAlerta(Alert.AlertType.INFORMATION, "Éxito", "Transacción rechazada correctamente.");
-                cargarTransaccionesCliente(); 
-            } else {
-                mostrarAlerta(Alert.AlertType.WARNING, "Advertencia",
-                        "Solo se pueden rechazar transacciones pendientes.");
-            }
+            transaccionSeleccionada.setEstadoTransaccion(EstadoTransaccion.RECHAZADA);
+            mostrarAlerta(Alert.AlertType.INFORMATION, "Éxito", "Transacción rechazada correctamente.");
         } else {
             mostrarAlerta(Alert.AlertType.WARNING, "Advertencia", "Debe seleccionar una transacción.");
         }
     }
 
     private void cargarTransaccionesCliente() {
-        usuarioCliente = app.getLoginViewController().getUsuario();
-        if (usuarioCliente != null) {
-            List<Transaccion> listaTransacciones = consultaSolicitudesController
-                    .obtenerTransaccionesCliente(usuarioCliente);
+        String usuario = app.getLoginViewController().getUsuario();
+        Cliente cliente = consultaSolicitudesController.obtenerClientePorUsuario(usuario);
+        List<Transaccion> transaccionesPendientes = new ArrayList<>();
 
-            List<Transaccion> transaccionesPendientes = new ArrayList<>();
-
-            for (Transaccion transaccion : listaTransacciones) {
-                if (transaccion.getEstadoTransaccion() == EstadoTransaccion.PENDIENTE) {
-                    transaccionesPendientes.add(transaccion);
-                }
+        for (Transaccion transaccion : cliente.getTransacciones()) {
+            if (transaccion.getEstadoTransaccion() == EstadoTransaccion.PENDIENTE) {
+                transaccionesPendientes.add(transaccion);
             }
-
-            transacciones.setAll(transaccionesPendientes); 
-        } else {
-            mostrarAlerta(Alert.AlertType.ERROR, "Error", "No se pudo identificar al cliente logueado.");
         }
+        transacciones.setAll(transaccionesPendientes);
     }
 
     private void mostrarAlerta(Alert.AlertType tipo, String titulo, String mensaje) {
