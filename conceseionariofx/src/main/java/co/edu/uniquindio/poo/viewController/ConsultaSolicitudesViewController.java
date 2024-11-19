@@ -57,6 +57,14 @@ public class ConsultaSolicitudesViewController {
         
     }
 
+    public void setSelectedTransaccion(Transaccion selectedTransaccion) {
+        this.selectedTransaccion = selectedTransaccion;
+    }
+
+    public Transaccion getSelectedTransaccion() {
+        return selectedTransaccion;
+    }
+
     @FXML
     void initialize() {
         consultaSolicitudesController = new ConsultaSolicitudesController(app.concesionario);
