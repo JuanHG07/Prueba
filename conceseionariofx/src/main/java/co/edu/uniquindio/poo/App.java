@@ -9,11 +9,14 @@ import javafx.stage.Stage;
 
 import java.io.IOException;
 
+import co.edu.uniquindio.poo.controller.ConsultaSolicitudesController;
 import co.edu.uniquindio.poo.controller.DatosVehiculoController;
 import co.edu.uniquindio.poo.model.Concesionario;
 import co.edu.uniquindio.poo.viewController.AdministradorViewController;
 import co.edu.uniquindio.poo.viewController.ClienteViewController;
+import co.edu.uniquindio.poo.viewController.ConsultaSolicitudesViewController;
 import co.edu.uniquindio.poo.viewController.ConsultaTransaccionViewController;
+import co.edu.uniquindio.poo.viewController.DatosAlquilerViewController;
 import co.edu.uniquindio.poo.viewController.DatosClienteViewController;
 import co.edu.uniquindio.poo.viewController.DatosEmpleadoViewController;
 import co.edu.uniquindio.poo.viewController.DatosVehiculoViewController;
@@ -41,6 +44,8 @@ public class App extends Application {
     private Stage datosClienteStage;
     private Stage datosVehiculoStage;
     private Stage transaccionStage;
+    private Stage datosAlquilerStage;
+    private Stage consultaSolcitudesStage;
 
     LoginViewController loginViewController;
     RestablecerViewController restablecerViewController;
@@ -54,6 +59,8 @@ public class App extends Application {
     DatosClienteViewController datosClienteViewController;
     DatosVehiculoViewController datosVehiculoViewController;
     TransaccionViewController transaccionViewController;
+    DatosAlquilerViewController datosAlquilerViewController;
+    ConsultaSolicitudesViewController consultaSolicitudesViewController;
 
     public static Concesionario concesionario = new Concesionario("TU CARRO UQ");
 
@@ -328,6 +335,50 @@ public class App extends Application {
         }
     }
 
+    public void openConsultaSolicitudesView() {
+
+        try {
+
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("ConsultaSolitudesView.fxml"));
+            Parent root = loader.load();
+
+            consultaSolicitudesViewController = loader.getController();
+            consultaSolicitudesViewController.setApp(this);
+
+            Scene scene = new Scene(root);
+            consultaSolcitudesStage = new Stage();
+            consultaSolcitudesStage.initModality(Modality.WINDOW_MODAL);
+            consultaSolcitudesStage.setScene(scene);
+
+            consultaSolcitudesStage.showAndWait();
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void openDatosAlquilerView() {
+
+        try {
+
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("DatosAlquilerView.fxml"));
+            Parent root = loader.load();
+
+            datosAlquilerViewController = loader.getController();
+            datosAlquilerViewController.setApp(this);
+
+            Scene scene = new Scene(root);
+            datosAlquilerStage = new Stage();
+            datosAlquilerStage.initModality(Modality.WINDOW_MODAL);
+            datosAlquilerStage.setScene(scene);
+
+            datosAlquilerStage.showAndWait();
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
     public LoginViewController getLoginViewController() {
         return loginViewController;
     }
@@ -366,6 +417,22 @@ public class App extends Application {
 
     public DatosVehiculoViewController getDatosVehiculoViewController() {
         return datosVehiculoViewController;
+    }
+
+    public ConsultaTransaccionViewController getConsultaTransaccionViewController() {
+        return consultaTransaccionViewController;
+    }
+
+    public TransaccionViewController getTransaccionViewController() {
+        return transaccionViewController;
+    }
+
+    public DatosAlquilerViewController getDatosAlquilerViewController() {
+        return datosAlquilerViewController;
+    }
+
+    public ConsultaSolicitudesViewController getConsultaSolicitudesViewController() {
+        return consultaSolicitudesViewController;
     }
 
 }

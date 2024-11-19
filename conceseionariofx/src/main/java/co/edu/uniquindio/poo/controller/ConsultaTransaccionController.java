@@ -4,7 +4,7 @@ import co.edu.uniquindio.poo.model.Concesionario;
 import co.edu.uniquindio.poo.model.Vendedor;
 
 public class ConsultaTransaccionController {
-        Concesionario concesionario;
+    Concesionario concesionario;
 
     public ConsultaTransaccionController(Concesionario concesionario) {
         this.concesionario = concesionario;
