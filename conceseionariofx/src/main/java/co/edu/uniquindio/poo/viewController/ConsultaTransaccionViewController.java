@@ -71,7 +71,7 @@ public class ConsultaTransaccionViewController {
         radioVenta.setDisable(true);
         radioAlquiler.setDisable(true);
     }
-
+//Hola
     @FXML
     void enviarOferta(ActionEvent event) {
         try {
