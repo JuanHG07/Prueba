@@ -6,7 +6,7 @@
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.paint.*?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="694.0" prefWidth="881.0" style="-fx-background-color: #f0f4f8;" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="694.0" prefWidth="881.0" style="-fx-background-color: #f0f4f8;" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="co.edu.uniquindio.poo.viewController.TransaccionViewController">
    <children>
       <!-- Title Label -->
       <Label alignment="CENTER" layoutX="236.0" prefHeight="66.0" prefWidth="411.0" style="-fx-text-fill: #2a2e37;" text="Datos Extra de Transacción">
@@ -66,7 +66,8 @@
       <DatePicker fx:id="dtpckFechaFin" editable="false" layoutX="599.0" layoutY="564.0" prefHeight="33.0" prefWidth="245.0" promptText="fecha fin" style="-fx-background-color: #ffffff; -fx-border-color: #d1d5db; -fx-border-radius: 5;" />
 
       <!-- Buttons -->
-      <Button fx:id="btnGuardar" layoutX="347.0" layoutY="632.0" mnemonicParsing="false" onAction="#btnGuardarAction" style="-fx-background-color: #3b82f6; -fx-text-fill: #ffffff; -fx-font-size: 16; -fx-border-radius: 5;" text="Guardar" />
-      <Button fx:id="btnSalir" layoutX="461.0" layoutY="632.0" mnemonicParsing="false" onAction="#btnSalirAction" style="-fx-background-color: #ef4444; -fx-text-fill: #ffffff; -fx-font-size: 16; -fx-border-radius: 5;" text="Salir" />
+      <Button fx:id="btnGuardar" layoutX="308.0" layoutY="632.0" mnemonicParsing="false" onAction="#guardarTransaccion" style="-fx-background-color: #3b82f6; -fx-text-fill: #ffffff; -fx-font-size: 16; -fx-border-radius: 5;" text="Guardar" />
+      <Button fx:id="btnSalir" layoutX="493.0" layoutY="632.0" mnemonicParsing="false" onAction="#btnSalirAction" style="-fx-background-color: #ef4444; -fx-text-fill: #ffffff; -fx-font-size: 16; -fx-border-radius: 5;" text="Salir" />
+      <Button fx:id="btnCargar" layoutX="407.0" layoutY="632.0" mnemonicParsing="false" onAction="#cargarDatos" style="-fx-background-color: #ffd530; -fx-text-fill: #ffffff; -fx-font-size: 16; -fx-border-radius: 5;" text="Cargar" textFill="#ffd530" />
    </children>
 </AnchorPane>

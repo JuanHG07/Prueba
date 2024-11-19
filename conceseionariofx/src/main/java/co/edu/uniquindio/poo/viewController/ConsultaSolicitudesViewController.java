@@ -8,6 +8,7 @@ import co.edu.uniquindio.poo.model.Compra;
 import co.edu.uniquindio.poo.model.EstadoTransaccion;
 import co.edu.uniquindio.poo.model.Negocio;
 import co.edu.uniquindio.poo.model.Transaccion;
+import co.edu.uniquindio.poo.model.Vendedor;
 import co.edu.uniquindio.poo.model.Venta;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.FXCollections;
@@ -16,11 +17,15 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.stage.Stage;
 
 import java.util.ArrayList;
 import java.util.List;
 
 public class ConsultaSolicitudesViewController {
+
+    @FXML
+    private Button btnCargarOferta;
 
     @FXML
     private TableView<Transaccion> tblSolicitudes;
@@ -61,15 +66,13 @@ public class ConsultaSolicitudesViewController {
 
     private ObservableList<Transaccion> transacciones;
 
+    public void setApp(App app) {
+        this.app = app;
+    }
+
     private Transaccion selectedTransaccion;
 
     ToggleGroup toggleGroup;
-
-    // SetAPP
-    public void setApp(App app) {
-        this.app = app;
-
-    }
 
     public Transaccion getSelectedTransaccion() {
         return selectedTransaccion;
@@ -86,7 +89,6 @@ public class ConsultaSolicitudesViewController {
         seleccionarTransaccion();
         enlazarOpciones();
         enlazarDatosTabla();
-        cargarTransaccionesCliente();
 
         tblSolicitudes.setItems(transacciones);
     }
@@ -166,17 +168,29 @@ public class ConsultaSolicitudesViewController {
         }
     }
 
+    @FXML
+    void cargarDatos(ActionEvent event) {
+        cargarTransaccionesCliente();
+    }
+
     private void cargarTransaccionesCliente() {
         String usuario = app.getLoginViewController().getUsuario();
         Cliente cliente = consultaSolicitudesController.obtenerClientePorUsuario(usuario);
         List<Transaccion> transaccionesPendientes = new ArrayList<>();
 
         for (Transaccion transaccion : cliente.getTransacciones()) {
-            if (transaccion.getEstadoTransaccion() == EstadoTransaccion.PENDIENTE) {
+            if (transaccion.getEstadoTransaccion() == EstadoTransaccion.PENDIENTE & transaccion.getVendedor() != null) {
                 transaccionesPendientes.add(transaccion);
             }
         }
         transacciones.setAll(transaccionesPendientes);
+        tblSolicitudes.setItems(transacciones);
+    }
+
+    @FXML
+    void cargarDatosOferta(ActionEvent event) {
+        Transaccion transaccion = tblSolicitudes.getSelectionModel().getSelectedItem();
+        mostrarInformacionTransaccion(transaccion);
     }
 
     private void mostrarAlerta(Alert.AlertType tipo, String titulo, String mensaje) {
@@ -185,6 +199,12 @@ public class ConsultaSolicitudesViewController {
         alerta.setHeaderText(null);
         alerta.setContentText(mensaje);
         alerta.showAndWait();
+    }
+
+    @FXML
+    void regresarCliente(ActionEvent event) {
+        Stage stage = (Stage) btnCancelar.getScene().getWindow();
+        stage.close();
     }
 
 }

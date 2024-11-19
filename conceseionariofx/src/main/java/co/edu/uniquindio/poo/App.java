@@ -339,7 +339,7 @@ public class App extends Application {
 
         try {
 
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("ConsultaSolitudesView.fxml"));
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("ConsultaSolicitudesView.fxml"));
             Parent root = loader.load();
 
             consultaSolicitudesViewController = loader.getController();

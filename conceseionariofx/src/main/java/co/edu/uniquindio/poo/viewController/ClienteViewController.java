@@ -450,7 +450,7 @@ public class ClienteViewController {
 
     @FXML
     void consultarPendientes(ActionEvent event) {
-
+        app.openConsultaSolicitudesView();
     }
 
     public Vehiculo getSelectedVehiculo() {

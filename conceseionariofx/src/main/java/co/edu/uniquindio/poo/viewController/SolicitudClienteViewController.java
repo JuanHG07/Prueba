@@ -10,6 +10,7 @@ import co.edu.uniquindio.poo.controller.SolicitudClienteController;
 import co.edu.uniquindio.poo.model.Alquiler;
 import co.edu.uniquindio.poo.model.Cliente;
 import co.edu.uniquindio.poo.model.Compra;
+import co.edu.uniquindio.poo.model.EstadoTransaccion;
 import co.edu.uniquindio.poo.model.Negocio;
 import co.edu.uniquindio.poo.model.Transaccion;
 import co.edu.uniquindio.poo.model.Vehiculo;
@@ -51,6 +52,8 @@ public class SolicitudClienteViewController {
         String usuario = app.getLoginViewController().getUsuario();
         Cliente cliente = solicitudClienteController.verificarUsuario(usuario);
         Transaccion transaccion = new Transaccion(codigo, 0, date1.getValue(), cliente, null);
+        transaccion.setEstadoTransaccion(EstadoTransaccion.PENDIENTE);
+        cliente.getTransacciones().add(transaccion);
         Negocio negocio = crearNegocio(transaccion);
         transaccion.getNegocios().add(negocio);
         solicitudClienteController.agregarTransaccion(transaccion);
