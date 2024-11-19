@@ -1,59 +1,136 @@
 package co.edu.uniquindio.poo.viewController;
 
+import co.edu.uniquindio.poo.App;
+import co.edu.uniquindio.poo.controller.ConsultaSolicitudesController;
+import co.edu.uniquindio.poo.model.EstadoTransaccion;
+import co.edu.uniquindio.poo.model.Transaccion;
+import javafx.beans.property.SimpleStringProperty;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.scene.control.Button;
-import javafx.scene.control.RadioButton;
-import javafx.scene.control.TableColumn;
-import javafx.scene.control.TableView;
-import javafx.scene.control.TextField;
+import javafx.scene.control.*;
+import javafx.scene.control.cell.PropertyValueFactory;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class ConsultaSolicitudesViewController {
-    @FXML
-    private TableColumn<?, ?> clmCodigo;
 
     @FXML
-    private RadioButton radioCompra;
+    private TableView<Transaccion> tblSolicitudes;
 
     @FXML
-    private TableView<?> tblSolicitudes;
+    private TableColumn<Transaccion, String> clmCodigo;
 
     @FXML
-    private TableColumn<?, ?> ClmCodigoVendedor;
+    private TableColumn<Transaccion, String> clmCodigoVendedor;
+
+    @FXML
+    private TableColumn<Transaccion, String> clmFecha;
 
     @FXML
     private Button btnAceptar;
 
     @FXML
-    private TableColumn<?, ?> clmFecha;
-
-    @FXML
     private Button btnRechazar;
-
-    @FXML
-    private RadioButton radioAlquiler;
 
     @FXML
     private Button btnCancelar;
 
     @FXML
-    private RadioButton radioVenta;
-
-    @FXML
     private TextField txtOferta;
 
-    @FXML
-    void aceptarOferta(ActionEvent event) {
+    private App app;
 
+    private ConsultaSolicitudesController consultaSolicitudesController;
+
+    private ObservableList<Transaccion> transacciones;
+
+    private String usuarioCliente;
+
+    @FXML
+    void initialize() {
+        consultaSolicitudesController = new ConsultaSolicitudesController(app.concesionario);
+        transacciones = FXCollections.observableArrayList();
+        clmCodigo.setCellValueFactory(new PropertyValueFactory<>("codigo"));
+        clmFecha.setCellValueFactory(new PropertyValueFactory<>("fecha"));
+        clmCodigoVendedor.setCellValueFactory(cellData -> {
+
+        Transaccion transaccion = cellData.getValue();
+        if (transaccion.getVendedor() != null) {
+            return new SimpleStringProperty(transaccion.getVendedor().getCodigoEmpleado());
+        } else {
+            return new SimpleStringProperty("Sin vendedor");
+        }
+        });
+
+      
+        tblSolicitudes.setItems(transacciones);
     }
 
     @FXML
-    void regresarCliente(ActionEvent event) {
+    void aceptarOferta(ActionEvent event) {
+        Transaccion transaccionSeleccionada = tblSolicitudes.getSelectionModel().getSelectedItem();
 
+        if (transaccionSeleccionada != null) {
+            if (transaccionSeleccionada.getEstadoTransaccion() == EstadoTransaccion.PENDIENTE) {
+                consultaSolicitudesController.aceptarTransaccion(transaccionSeleccionada);
+                mostrarAlerta(Alert.AlertType.INFORMATION, "Éxito", "Transacción aceptada correctamente.");
+                cargarTransaccionesCliente(); // Recargar las transacciones para reflejar el cambio.
+            } else {
+                mostrarAlerta(Alert.AlertType.WARNING, "Advertencia",
+                        "Solo se pueden aceptar transacciones pendientes.");
+            }
+        } else {
+            mostrarAlerta(Alert.AlertType.WARNING, "Advertencia", "Debe seleccionar una transacción.");
+        }
     }
 
     @FXML
     void rechazarOferta(ActionEvent event) {
+        Transaccion transaccionSeleccionada = tblSolicitudes.getSelectionModel().getSelectedItem();
 
+        if (transaccionSeleccionada != null) {
+            if (transaccionSeleccionada.getEstadoTransaccion() == EstadoTransaccion.PENDIENTE) {
+                consultaSolicitudesController.rechazarTransaccion(transaccionSeleccionada);
+                mostrarAlerta(Alert.AlertType.INFORMATION, "Éxito", "Transacción rechazada correctamente.");
+                cargarTransaccionesCliente(); // Recargar las transacciones para reflejar el cambio.
+            } else {
+                mostrarAlerta(Alert.AlertType.WARNING, "Advertencia",
+                        "Solo se pueden rechazar transacciones pendientes.");
+            }
+        } else {
+            mostrarAlerta(Alert.AlertType.WARNING, "Advertencia", "Debe seleccionar una transacción.");
+        }
     }
+
+    private void cargarTransaccionesCliente() {
+        usuarioCliente = app.getLoginViewController().getUsuario();
+        if (usuarioCliente != null) {
+            List<Transaccion> listaTransacciones = consultaSolicitudesController
+                    .obtenerTransaccionesCliente(usuarioCliente);
+
+            List<Transaccion> transaccionesPendientes = new ArrayList<>();
+
+            for (Transaccion transaccion : listaTransacciones) {
+                if (transaccion.getEstadoTransaccion() == EstadoTransaccion.PENDIENTE) {
+                    transaccionesPendientes.add(transaccion);
+                }
+            }
+
+            transacciones.setAll(transaccionesPendientes); // Actualizar la tabla con las transacciones pendientes.
+        } else {
+            mostrarAlerta(Alert.AlertType.ERROR, "Error", "No se pudo identificar al cliente logueado.");
+        }
+    }
+
+    private void mostrarAlerta(Alert.AlertType tipo, String titulo, String mensaje) {
+        Alert alerta = new Alert(tipo);
+        alerta.setTitle(titulo);
+        alerta.setHeaderText(null); // Elimina el encabezado para que sea más claro.
+        alerta.setContentText(mensaje);
+        alerta.showAndWait();
+    }
+
 }
