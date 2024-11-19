@@ -134,6 +134,24 @@ public class EmpleadoViewController {
     public boolean agregarTransaccion;
     public boolean modificarTransaccion;
 
+
+    
+    public boolean isAgregarVehiculo() {
+        return agregarVehiculo;
+    }
+
+    public void setAgregarVehiculo(boolean agregarVehiculo) {
+        this.agregarVehiculo = agregarVehiculo;
+    }
+
+    public boolean isModificarVehiculo() {
+        return modificarVehiculo;
+    }
+
+    public void setModificarVehiculo(boolean modificarVehiculo) {
+        this.modificarVehiculo = modificarVehiculo;
+    }
+
     @FXML
     void initialize() {
         empleadoController = new EmpleadoController(app.concesionario);
@@ -265,6 +283,21 @@ public class EmpleadoViewController {
 
     @FXML
     void eliminarVehiculo(ActionEvent event) {
+        Vehiculo vehiculo = tblVehiculos.getSelectionModel().getSelectedItem();
+
+        if (vehiculo == null) {
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.setHeaderText(null);
+            alert.setTitle("ERROR");
+            alert.setContentText("Debes seleccionar un vehiculo.");
+            alert.showAndWait();
+        } else {
+
+            empleadoController.obtenerListaVehiculos().remove(vehiculo);
+            vehiculos.remove(vehiculo);
+
+            tblVehiculos.refresh();
+        }
 
     }
 

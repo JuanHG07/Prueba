@@ -185,8 +185,7 @@ public class DatosVehiculoViewController {
     @FXML
     private RadioButton radioElectrico;
 
-    @FXML
-    private Button btnEliminar;
+ 
 
     @FXML
     private RadioButton radioPickUp;
@@ -317,8 +316,7 @@ public class DatosVehiculoViewController {
     @FXML
     private TextField txtCapacidadMaleteroBus;
 
-    @FXML
-    private Button btnActualizar;
+   
 
     @FXML
     private TextField txtNumeroSalidasEmergenciaBus;
@@ -520,14 +518,12 @@ public class DatosVehiculoViewController {
 
     @FXML
     void btnGuardarAction(ActionEvent event) {
-        System.out.println("Se presiono guardar");
-        System.out.println(app.getEmpleadoViewController().agregarVehiculo);
-        System.out.println(app.getEmpleadoViewController().modificarVehiculo);
+        
         if (app.getEmpleadoViewController().agregarVehiculo) {
             
             agregarVehiculo(event);
         } else if (app.getEmpleadoViewController().modificarVehiculo) {
-            System.out.println("Se procedera a modificar el vehiculo");
+  
             btnActualizarAction(event);
         }
     }
@@ -535,7 +531,7 @@ public class DatosVehiculoViewController {
 
 
     private void btnActualizarAction(ActionEvent event) {
-        System.out.println("Se actualizara el vehiculo");
+
         Vehiculo vehiculo = app.getEmpleadoViewController().getSelectedVehiculo();
 
         if (vehiculo == null) {
@@ -750,6 +746,7 @@ public class DatosVehiculoViewController {
                 alerta.setHeaderText("Vehículo actualizado");
                 alerta.setContentText("Los datos del vehículo se han modificado correctamente.");
                 alerta.showAndWait();
+                app.getEmpleadoViewController().setModificarVehiculo(false);
 
             } catch (Exception e) {
                 Alert alerta = new Alert(Alert.AlertType.ERROR);
@@ -803,20 +800,7 @@ public class DatosVehiculoViewController {
     }
 
     private void mostrarInformacionVehiculo(Vehiculo vehiculo) {
-        if (vehiculo== null){
-            Alert alerta = new Alert(Alert.AlertType.INFORMATION);
-                alerta.setTitle("Vehiculo");
-                alerta.setHeaderText("el vehiculo es null");
-                alerta.setContentText("");
-                alerta.showAndWait();
-        }
-        if (vehiculo != null) {
-            // Datos comunes a todos los vehículos
-            Alert alerta = new Alert(Alert.AlertType.INFORMATION);
-                alerta.setTitle("Vehiculo");
-                alerta.setHeaderText("El vehiculo no es nulo");
-                alerta.setContentText("");
-                alerta.showAndWait();
+        
 
             txtCodigo.setText(vehiculo.getCodigo());
             txtMarca.setText(vehiculo.getMarca());
@@ -910,7 +894,7 @@ public class DatosVehiculoViewController {
                 txtLigeroHibrido.setText(hibrido.Ligero() ? "Si" : "No");
             }
         }
-    }
+    
 
     private void agregarVehiculo(ActionEvent event) {
         String codigo = txtCodigo.getText();
@@ -1118,6 +1102,7 @@ public class DatosVehiculoViewController {
                         alerta.setHeaderText("El vehiculo se ha creado con exito");
                         alerta.setContentText("El vehiculo se ha guardado con exito");
                         alerta.showAndWait();
+                        app.getEmpleadoViewController().setAgregarVehiculo(false);
                     }
                 }
             } catch (Exception e) {
@@ -1289,10 +1274,7 @@ public class DatosVehiculoViewController {
         this.app = app;
     }
 
-    @FXML
-    void btnEliminarAction(ActionEvent event) {
 
-    }
 
     @FXML
     void btnSalirAction(ActionEvent event) {

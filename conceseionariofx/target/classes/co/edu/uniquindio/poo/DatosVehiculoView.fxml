@@ -297,8 +297,7 @@
                       <children>
                         <Button fx:id="btnGuardar" onAction="#btnGuardarAction" style="-fx-background-color: #27AE60; -fx-text-fill: white;" text="Guardar" />
                         <Button fx:id="btnCargarDatos" onAction="#btnCargarDatos" style="-fx-background-color: #2980B9; -fx-text-fill: white;" text="Cargar Datos" />
-                        <Button fx:id="btnActualizar" style="-fx-background-color: #F39C12; -fx-text-fill: white;" text="Actualizar" />
-                        <Button fx:id="btnEliminar" onAction="#btnEliminarAction" style="-fx-background-color: #C0392B; -fx-text-fill: white;" text="Eliminar" />
+                        
                         <Button fx:id="btnLimpiar" onAction="#btnLimpiarAction" style="-fx-background-color: #8E44AD; -fx-text-fill: white;" text="Limpiar" />
                         <Button fx:id="btnSalir" onAction="#btnSalirAction" style="-fx-background-color: #7F8C8D; -fx-text-fill: white;" text="Salir" />
                       </children>
