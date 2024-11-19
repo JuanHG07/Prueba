@@ -21,6 +21,7 @@ import co.edu.uniquindio.poo.viewController.EmpleadoViewController;
 import co.edu.uniquindio.poo.viewController.LoginViewController;
 import co.edu.uniquindio.poo.viewController.RestablecerViewController;
 import co.edu.uniquindio.poo.viewController.SolicitudClienteViewController;
+import co.edu.uniquindio.poo.viewController.TransaccionViewController;
 import co.edu.uniquindio.poo.viewController.VentaClienteViewController;
 
 /**
@@ -38,7 +39,8 @@ public class App extends Application {
     private Stage solicitudClienteStage;
     private Stage datosEmpleadoStage;
     private Stage datosClienteStage;
-    private Stage datosVehiculo;
+    private Stage datosVehiculoStage;
+    private Stage transaccionStage;
 
     LoginViewController loginViewController;
     RestablecerViewController restablecerViewController;
@@ -51,6 +53,7 @@ public class App extends Application {
     DatosEmpleadoViewController datosEmpleadoViewController;
     DatosClienteViewController datosClienteViewController;
     DatosVehiculoViewController datosVehiculoViewController;
+    TransaccionViewController transaccionViewController;
 
     public static Concesionario concesionario = new Concesionario("TU CARRO UQ");
 
@@ -292,11 +295,33 @@ public class App extends Application {
             datosVehiculoViewController.setApp(this);
 
             Scene scene = new Scene(root);
-            datosVehiculo = new Stage();
-            datosVehiculo.initModality(Modality.WINDOW_MODAL);
-            datosVehiculo.setScene(scene);
+            datosVehiculoStage = new Stage();
+            datosVehiculoStage.initModality(Modality.WINDOW_MODAL);
+            datosVehiculoStage.setScene(scene);
 
-            datosVehiculo.showAndWait();
+            datosVehiculoStage.showAndWait();
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void openTransaccionView() {
+
+        try {
+
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("TransaccionView.fxml"));
+            Parent root = loader.load();
+
+            transaccionViewController = loader.getController();
+            transaccionViewController.setApp(this);
+
+            Scene scene = new Scene(root);
+            transaccionStage = new Stage();
+            transaccionStage.initModality(Modality.WINDOW_MODAL);
+            transaccionStage.setScene(scene);
+
+            transaccionStage.showAndWait();
 
         } catch (IOException e) {
             e.printStackTrace();

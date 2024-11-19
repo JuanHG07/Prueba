@@ -324,6 +324,8 @@ public class VentaClienteViewController {
         lblCambios.setStyle("-fx-text-fill: red;");
         lblVelMax.setStyle("-fx-text-fill: red;");
         lblCilindraje.setStyle("-fx-text-fill: red;");
+        lblTipoCombustion.setStyle("-fx-text-fill: red;");
+        lblTipoTransmision.setStyle("-fx-text-fill: red;");
 
         if (radioMoto.isSelected()) {
             lblDefensas.setStyle("-fx-text-fill: red;");

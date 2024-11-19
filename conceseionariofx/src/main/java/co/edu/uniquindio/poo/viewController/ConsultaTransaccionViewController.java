@@ -94,6 +94,7 @@ public class ConsultaTransaccionViewController {
                         ((Alquiler) negocio).setPrecioAlquiler(oferta);
                     }
                 }
+                transaccion.setVendedor(consultaTransaccionController.verificarUsuario(app.getLoginViewController().getUsuario()));
                 Alert alert = new Alert(Alert.AlertType.INFORMATION);
                 alert.setHeaderText(null);
                 alert.setTitle("INFO");

@@ -355,12 +355,36 @@ public class EmpleadoViewController {
 
     @FXML
     void terminarTransaccion(ActionEvent event) {
-        
+        Transaccion transaccion = tblTransacciones.getSelectionModel().getSelectedItem();
+
+        if (transaccion.getEstadoTransaccion() == EstadoTransaccion.ACEPTADA) {
+            app.openTransaccionView();
+        } else {
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.setHeaderText(null);
+            alert.setTitle("ERROR");
+            alert.setContentText("Solo puedes liquidar transacciones aceptadas por el cliente.");
+            alert.showAndWait();
+        }
     }
 
     @FXML
     void eliminarTransaccion(ActionEvent event) {
+        Transaccion transaccion = tblTransacciones.getSelectionModel().getSelectedItem();
 
+        if (transaccion == null) {
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.setHeaderText(null);
+            alert.setTitle("ERROR");
+            alert.setContentText("Debes seleccionar una transaccion.");
+            alert.showAndWait();
+        } else {
+
+            empleadoController.obtenerListaTransacciones().remove(transaccion);
+            transacciones.remove(transaccion);
+
+            tblTransacciones.refresh();
+        }
     }
 
     public Cliente getSelectedCliente() {

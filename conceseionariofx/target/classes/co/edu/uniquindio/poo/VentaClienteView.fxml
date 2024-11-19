@@ -14,14 +14,14 @@
               <!-- Vehículos Disponibles -->
               <Label style="-fx-font-size: 18px; -fx-font-weight: bold; -fx-text-fill:  #66CC33;" text="Formulario para Vender Vehículo" />
               <!-- Código del Vehículo -->
-              <Label text="Código:" />
-              <TextField fx:id="txtCodigo" editable="false" prefHeight="32.0" prefWidth="1084.0" promptText="Ingrese el código" />
+              <Label fx:id="lblCodigo" text="Código:" />
+              <TextField fx:id="txtCodigo" prefHeight="32.0" prefWidth="1084.0" promptText="Ingrese el código" />
               <!-- Marca del Vehículo -->
-              <Label text="Marca:" />
-              <TextField fx:id="txtMarca" editable="false" prefHeight="36.0" prefWidth="1084.0" promptText="Ingrese la marca" />
+              <Label fx:id="lblMarca" text="Marca:" />
+              <TextField fx:id="txtMarca" prefHeight="36.0" prefWidth="1084.0" promptText="Ingrese la marca" />
               <!-- Modelo del Vehículo -->
-              <Label text="Modelo:" />
-              <TextField fx:id="txtModelo" editable="false" prefHeight="40.0" prefWidth="1084.0" promptText="Ingrese el modelo" />
+              <Label fx:id="lblModelo" text="Modelo:" />
+              <TextField fx:id="txtModelo" prefHeight="40.0" prefWidth="1084.0" promptText="Ingrese el modelo" />
               <VBox fx:id="vboxTipoVehiculo" spacing="5.0" style="-fx-background-color:  #66CC33; -fx-border-radius: 10; -fx-padding: 10;">
                  <children>
                    <RadioButton fx:id="radioMoto" onAction="#seleccionarVehiculo" style="-fx-text-fill: #ECF0F1;" text="Moto" />
@@ -108,7 +108,7 @@
                    <Label fx:id="lblAsistentePermanenciaCarril" text="Asistente de Permanencia en Carril (Sí/No):" GridPane.rowIndex="29" />
                    <TextField fx:id="txtAsistentePermanenciaCarril" editable="true" promptText="Sí/No" GridPane.columnIndex="1" GridPane.rowIndex="29" />
                    <Label fx:id="lblNumeroSalidasEmergencia" text="Numero salidas de emergencia:" GridPane.columnIndex="0" GridPane.rowIndex="30" />
-                   <TextField fx:id="txtNumeroSalidasDeEmergencias" editable="true" promptText="Ingrese Numero salidas de emergencia" GridPane.columnIndex="1" GridPane.rowIndex="30" />
+                   <TextField fx:id="txtNumeroSalidasEmergencia" editable="true" promptText="Ingrese Numero salidas de emergencia" GridPane.columnIndex="1" GridPane.rowIndex="30" />
                    <Label fx:id="lblEspejosElectricos" text="Espejos eléctricos (Sí/No):" GridPane.rowIndex="31" />
                    <TextField fx:id="txtEspejosElectricos" editable="true" promptText="Sí/No" GridPane.columnIndex="1" GridPane.rowIndex="31" />
                    <Label fx:id="lblVelocidadCrucero" text="Velocidad crucero (Sí/No):" GridPane.rowIndex="32" />
